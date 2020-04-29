@@ -70,8 +70,6 @@ function draw() {
     rect(0, HEIGHT - 3, WIDTH, 3);
     fill(0,0,0); //black
     rect(0, 0, WIDTH, 3);
-
- 
     finish = 'down';
   } else if(mouseY >= HEIGHT - 13 && finish == 'down') {
       score++;
@@ -80,8 +78,6 @@ function draw() {
       rect(0, 0, WIDTH, 3);
       fill(0,0,0); //black
       rect(0, HEIGHT - 3, WIDTH, 3);
-        
-
       finish = 'up';
   }
 
