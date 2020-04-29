@@ -53,7 +53,7 @@ function draw() {
   // text(mouseY, 10, 90);
 
   // collision
-  if((mouseX == rx || (mouseX >= rx - 10 && mouseX <= rx + 10)) && (mouseY >= (~~(HEIGHT / 2) - 24) && mouseY <= (~~(HEIGHT / 2) + 34))) {
+  if((mouseX == rx || (mouseX >= rx + 10 && mouseX <= rx + 20)) && (mouseY >= (~~(HEIGHT / 2) - 24) && mouseY <= (~~(HEIGHT / 2) + 34))) {
     alert("You Crashed! >:\nbad luck I'm crying for you\nThis is Game Over :c");
 
     // if touched show gameover pic & end
@@ -63,7 +63,7 @@ function draw() {
   }
 
   // add score if up || down
-  if(mouseY <= 13 && finish == 'up') {
+  if((mouseY <= 13 && finish == 'up') && (mouseX > 27 && mouseX < WIDTH + 17)) {
     score++;
     incr += speed; //speed up
     fill(88, 81, 100); //limegreen
@@ -71,7 +71,7 @@ function draw() {
     fill(0,0,0); //black
     rect(0, 0, WIDTH, 3);
     finish = 'down';
-  } else if(mouseY >= HEIGHT - 13 && finish == 'down') {
+  } else if((mouseY >= HEIGHT - 13 && finish == 'down') && (mouseX > 27 && mouseX < WIDTH + 17)) {
       score++;
       incr += speed; //speed up
       fill(88, 81, 100); //limered
