@@ -107,5 +107,6 @@ function draw() {
 
   textSize(50);
   fill('white');
+  textFont('Signika')
   text(score, 10, 50); 
 }
