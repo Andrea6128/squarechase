@@ -7,6 +7,16 @@ function preload() {
   endImg = loadImage('assets/gameover.jpg');
 }
 
+function initTopLine() {
+  fill(88, 81, 100); //limegreen
+  rect(0, 0, WIDTH, 3);
+}
+
+function initBottomLine() {
+  fill(88, 81, 100); //limegreen
+  rect(0, HEIGHT - 3, WIDTH, 3);
+}
+
 function setup() {
   fr = 240;
   frameRate(fr);
@@ -21,6 +31,9 @@ function setup() {
   speed = .2;
   clear();
   background(0);
+
+  initTopLine();
+  // initBottomLine();
 }
 
 function draw() {
@@ -63,7 +76,7 @@ function draw() {
   }
 
   // add score if up || down
-  if((mouseY <= 13 && finish == 'up') && (mouseX > 27 && mouseX < WIDTH + 17)) {
+  if((mouseY >= -34 && mouseY <= 30 && finish == 'up') && (mouseX > 27 && mouseX < WIDTH + 17)) {
     score++;
     incr += speed; //speed up
     fill(88, 81, 100); //limegreen
@@ -71,14 +84,25 @@ function draw() {
     fill(0,0,0); //black
     rect(0, 0, WIDTH, 3);
     finish = 'down';
-  } else if((mouseY >= HEIGHT - 13 && finish == 'down') && (mouseX > 27 && mouseX < WIDTH + 17)) {
+  } else if((mouseY <= HEIGHT + 77 && mouseY >= HEIGHT + 13 && finish == 'down') && (mouseX > 27 && mouseX < WIDTH + 17)) {
       score++;
       incr += speed; //speed up
-      fill(88, 81, 100); //limered
+      fill(88, 81, 100); //limegreen
       rect(0, 0, WIDTH, 3);
       fill(0,0,0); //black
       rect(0, HEIGHT - 3, WIDTH, 3);
       finish = 'up';
+  }
+
+  // test for overriding playfield area
+  if((mouseX >= WIDTH || mouseX <= 0) && (mouseY <= 240)) {
+    if(finish == 'up') {
+      finish = 'down';
+    }
+  } else if((mouseX >= WIDTH || mouseX <= 0) && (mouseY >= 240)) {
+    if(finish == 'down') {
+      finish = 'up';
+    }
   }
 
   textSize(50);

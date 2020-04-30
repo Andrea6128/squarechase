@@ -26,12 +26,13 @@ body {
 /* this is the game screen */
 #defaultCanvas0 {
     text-align: center;
-    position: absolute;
-    left: 32%;
     border-style: solid;
     border-radius: 10px;
     border-color: #0c1f35;
     border-width: 20px;
+    display: flex;
+    margin: auto;
+
 }
 
 .desc {
