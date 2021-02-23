@@ -5,6 +5,11 @@ var HEIGHT = 400;
 function preload() {
   bkgImg = loadImage('assets/pony.jpg');
   endImg = loadImage('assets/gameover.jpg');
+  soundFormats('mp3', 'ogg');
+  bleepSoundUp = loadSound('assets/up.ogg');
+  bleepSoundDown = loadSound('assets/down.ogg');
+  gameOverSound = loadSound('assets/gameover.ogg');
+  hiScore = loadTable('assets/score.csv', 'csv', 'header');
 }
 
 function initTopLine() {
@@ -17,8 +22,41 @@ function initBottomLine() {
   rect(0, HEIGHT - 3, WIDTH, 3);
 }
 
+function scoreTable() {
+  clear();
+  background(0);
+  textSize(30);
+  fill('white');
+  textFont('Signika');
+  // text('test', 40, 40);
+  let posY = 40;
+  let posX = 30;
+  var scoreArray = {};
+
+  for (let nameInCSV = 0; nameInCSV <= 4; nameInCSV++) {
+    namePrint = hiScore.get(nameInCSV, 1);
+    scorePrint = hiScore.get(nameInCSV, 2);
+
+    // TODO
+    // make a list, sort it and print it
+    scoreArray[namePrint] = scorePrint;
+    // print(scoreArray);
+    // text(namePrint, posX, posY);
+    // text(scorePrint, posX + 300, posY); 
+    posY += 40;
+  }
+  
+  print(scoreArray);
+  text(String(scoreArray), posX, posY);
+  // Array.scoreArray.sort();
+  // text(scoreArray, 100, 200);
+
+  noloop();
+}
+
+
 function setup() {
-  fr = 240;
+  fr = 60;
   frameRate(fr);
   createCanvas(WIDTH, HEIGHT);
   angleMode(DEGREES);
@@ -32,8 +70,13 @@ function setup() {
   clear();
   background(0);
 
-  initTopLine();
-  // initBottomLine();
+
+  // initTopLine();
+  initBottomLine();
+
+
+  // print(hiScore.get(1, 1));
+  // alert(hiScore.get(1, 1));
 }
 
 function draw() {
@@ -56,7 +99,7 @@ function draw() {
 
   // draw running square
   fill(0, 0, 100); //white
-  rect(rx, ~~(HEIGHT / 2), 13, 13); //draw a quare
+  rect(rx, ~~(HEIGHT / 2), 13, 13); //draw a square
   
   // draw mouse cursor
   cursor('assets/cursor.png', 4, 4);
@@ -67,11 +110,13 @@ function draw() {
 
   // collision
   if((mouseX == rx || (mouseX >= rx + 10 && mouseX <= rx + 20)) && (mouseY >= (~~(HEIGHT / 2) - 24) && mouseY <= (~~(HEIGHT / 2) + 34))) {
+    gameOverSound.play();    
     alert("You Crashed! >:\nbad luck I'm crying for you\nThis is Game Over :c");
-
     // if touched show gameover pic & end
+    // scoreTable();
     clear();
     image(endImg, 0, 0);
+    noStroke();
     noloop();
   }
 
@@ -84,6 +129,7 @@ function draw() {
     fill(0,0,0); //black
     rect(0, 0, WIDTH, 3);
     finish = 'down';
+    bleepSoundUp.play();
   } else if((mouseY <= HEIGHT + 77 && mouseY >= HEIGHT + 13 && finish == 'down') && (mouseX > 27 && mouseX < WIDTH + 17)) {
       score++;
       incr += speed; //speed up
@@ -92,7 +138,8 @@ function draw() {
       fill(0,0,0); //black
       rect(0, HEIGHT - 3, WIDTH, 3);
       finish = 'up';
-  }
+      bleepSoundDown.play();
+     }
 
   // test for overriding playfield area
   if((mouseX >= WIDTH || mouseX <= 0) && (mouseY <= 240)) {
